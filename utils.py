@@ -19,7 +19,7 @@ def get_data(file_name: str) -> dict:
 def get_dict_stats(data: dict) -> dict:
     """Counts the number of each face in the data"""
     dict_stats = {}
-
+    dict_stats["file_name"] = data["file_name"]
     dict_stats["volume"] = round(data["volume"], 3)
 
     for face in data["faces"]:
@@ -31,8 +31,6 @@ def get_dict_stats(data: dict) -> dict:
     print(f"Stats for {data['file_name']}: {dict_stats}")
     return dict_stats
 
-
-# Function to plot a face
 def plot_face(ax, bbMin, bbMax, centroid, area):
     x = [bbMin[0], bbMax[0]]
     y = [bbMin[1], bbMax[1]]
@@ -53,12 +51,13 @@ def plot_face(ax, bbMin, bbMax, centroid, area):
         fontsize=8,
     )
 
+def plot_3d(data: dict):
     # Create a 3D plot
     fig = plt.figure()
     ax = fig.add_subplot(111, projection='3d')
 
     # Plot each face
-    for face_data in attempt4["faces"]:
+    for face_data in data["faces"]:
         plot_face(ax, face_data['bbMin'], face_data['bbMax'], face_data['centroid'], face_data['area'])
 
     # Set labels for the axes

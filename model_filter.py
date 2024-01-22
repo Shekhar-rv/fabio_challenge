@@ -8,6 +8,7 @@ def filter_by_bounding_box(
     """Filters attempted models by bounding box rounded to 3 decimal places"""
     filtered_models = []
     incorrect_models = []
+
     for model in attempted_models:
         if (
             (
@@ -36,7 +37,6 @@ def filter_by_bounding_box(
     )
     return filtered_models, incorrect_models
 
-
 def filter_by_volume(target_model: dict, attempted_models: List[dict], incorrect_models: List[dict]) -> List[dict]:
     """Filters attempted models by volume rounded to 3 decimal places"""
     filtered_models = []
@@ -51,6 +51,24 @@ def filter_by_volume(target_model: dict, attempted_models: List[dict], incorrect
     )
     print(
         "After filtering by volume, the following models does not match with the target model: ",
+        [incorrect_model["file_name"] for incorrect_model in incorrect_models]
+    )
+    return filtered_models, incorrect_models
+
+def filter_by_faces(target_model: dict, attempted_models: List[dict], incorrect_models: List[dict]) -> List[dict]:
+    """Filters attempted models by the number of faces"""
+    filtered_models = []
+    for model in attempted_models:
+        if len(model["faces"]) == len(target_model["faces"]):
+            filtered_models.append(model)
+        else:
+            incorrect_models.append(model)
+    print(
+        "After filtering by faces, the following models matches with the target model: ",
+        [filtered_model["file_name"] for filtered_model in filtered_models]
+    )
+    print(
+        "After filtering by faces, the following models does not match with the target model: ",
         [incorrect_model["file_name"] for incorrect_model in incorrect_models]
     )
     return filtered_models, incorrect_models

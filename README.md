@@ -10,3 +10,16 @@
     - Provide some feedback for the student to go with the above (can be any format)
 
 ### Part 1 has a correct answer, but Part 2 is your chance to show us your own ideas, expertise and display some creative thinking.
+
+
+## Solution
+
+### Part 1
+
+To identify the correct model, I used the following approach:
+  1. Filtered the attempted models by comparing their metrics with the target model based on:
+     1. The bounding box of the models. 
+     2. The volumes of the models.
+     3. The number of faces of the models.
+   
+Based on the above, I identified the model with the highest number of matching metrics attempt4.json as the correct model.
