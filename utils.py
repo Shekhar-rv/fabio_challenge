@@ -1,10 +1,10 @@
 from json import load, JSONDecodeError
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import numpy as np
+from typing import Dict
 
 
-def get_data(file_name: str) -> dict:
+def get_data(file_name: str) -> Dict:
     """Converts json file to dict"""
     with open(f"data/{file_name}", "r", encoding="utf-8") as f:
         try:
@@ -15,55 +15,36 @@ def get_data(file_name: str) -> dict:
             data = {}
     return data
 
-
-def get_dict_stats(data: dict) -> dict:
+def get_dict_stats(data: Dict) -> Dict:
     """Counts the number of each face in the data"""
     dict_stats = {}
     dict_stats["file_name"] = data["file_name"]
     dict_stats["volume"] = round(data["volume"], 3)
-
-    for face in data["faces"]:
-        for i in face:
-            if i in dict_stats:
-                dict_stats[i] += 1
-            else:
-                dict_stats[i] = 1
+    dict_stats["faces_count"] = len(data["faces"])
     print(f"Stats for {data['file_name']}: {dict_stats}")
     return dict_stats
 
-def plot_face(ax, bbMin, bbMax, centroid, area):
-    x = [bbMin[0], bbMax[0]]
-    y = [bbMin[1], bbMax[1]]
-    z = [bbMin[2], bbMax[2]]
+def area_data_checker(target_model: Dict, attempted_model: Dict, stats_dict: Dict) -> Dict:
+    """
+    This function is used to check the data points (rounded to 4 decimal places) in each attempted models and comparing it with the target model.
+    """
+    check_list = [round(face["area"], 4) for face in target_model["faces"]]
+    target_model_volume = round(target_model["volume"], 4)
+    target_model_faces_count = len(target_model["faces"])
+    data_counter = 0
+    for face in attempted_model["faces"]:
+        if round(face["area"], 4) in check_list:
+            data_counter += 1
+    stats_dict["faces_area_count"] = data_counter
+    percentage_difference = abs(target_model_faces_count - data_counter) / target_model_faces_count
+    stats_dict["faces_score"] = round(max(0, 1 - percentage_difference), 3)
+    percentage_difference = abs(target_model_volume - stats_dict["volume"]) / target_model_volume
+    stats_dict["volume_score"] = round(max(0, 1 - percentage_difference), 3)
+    return stats_dict
 
-    ax.plot(x, y, z, color="blue", alpha=0.5)
-
-    # Plot the centroid
-    ax.scatter(centroid[0], centroid[1], centroid[2], color="red", marker="o")
-
-    # Annotate the face with its area
-    ax.text(
-        centroid[0],
-        centroid[1],
-        centroid[2],
-        f"Area: {area:.5f}",
-        color="black",
-        fontsize=8,
-    )
-
-def plot_3d(data: dict):
-    # Create a 3D plot
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection='3d')
-
-    # Plot each face
-    for face_data in data["faces"]:
-        plot_face(ax, face_data['bbMin'], face_data['bbMax'], face_data['centroid'], face_data['area'])
-
-    # Set labels for the axes
-    ax.set_xlabel('X Axis')
-    ax.set_ylabel('Y Axis')
-    ax.set_zlabel('Z Axis')
-
-    # Show the plot
-    plt.show()
+def score_calc(stats_dict: Dict) -> Dict:
+    """Calculates the score for each model"""
+    volume_score = stats_dict["volume_score"] * 5
+    faces_score = stats_dict["faces_score"] * 5
+    stats_dict["overall_score"] = round(volume_score + faces_score, 1)
+    return stats_dict

@@ -21,5 +21,33 @@ To identify the correct model, I used the following approach:
      1. The bounding box of the models. 
      2. The volumes of the models.
      3. The number of faces of the models.
+  2. The area of the faces of the models.
 
-Based on the above, I identified the model with the highest number of matching metrics attempt4.json as the correct model.
+I identified the **attempt4 model** as the correct model based on the following (rounding all values to 4 decimal places):
+  1. The bounding box of the model is the same as the target model.
+  2. The volume of the model is the same as the target model.
+  3. The number of faces of the model is the same as the target model.
+  4. The area of the faces of the model is the same as the target model.
+
+### Part 2
+
+To quantify how incorrect the incorrect models are, I used the following approach:
+  1. I chose to use the `volume` and `area` of the faces of the models as the metrics to quantify how incorrect the models are.
+  2. The models are overall scored on a scale of 10, with 0 being the most incorrect and 10 being the most correct.
+  3. The models are scored based on the following:
+     1. The volume of the model is compared to the target model. The closer the volume of the model is to the target model, the higher the score.
+     2. The area of the faces of the model is compared to the target model. The closer the area of the faces of the model is to the target model, the higher the score.
+
+## Feedback
+
+### Attempt 1
+This model had an overall score of 9.8/10 as the model is very close to the target model. However, this model has 205 faces compared to the target model which has 34 faces but 33 of the faces area matches with that of the target model.
+
+### Attempt 2
+This model had an overall score of 7.3/10. This model has 50 faces compared to the target model which has 34 faces but only 16 of the faces area matches with that of the target model. The volume of the model is slightly higher than the target model.
+
+### Attempt 3
+This model had an overall score of 6.8/10. This model has 16 faces compared to the target model which has 34 faces but only 14 of the faces area matches with that of the target model. The volume of the model is significantly lower than the target model.
+
+### Attempt 4
+This model had an overall score of 10/10. This model has 34 faces compared to the target model which has 34 faces and all of the faces area matches with that of the target model. The volume of the model is the same as the target model.

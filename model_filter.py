@@ -1,10 +1,10 @@
-from typing import List
+from typing import List, Dict
 
 
 def filter_by_bounding_box(
-    target_model: dict,
-    attempted_models: List[dict]
-) -> List[dict]:
+    target_model: Dict,
+    attempted_models: List[Dict]
+) -> List[Dict]:
     """Filters attempted models by bounding box rounded to 3 decimal places"""
     filtered_models = []
     incorrect_models = []
@@ -37,7 +37,7 @@ def filter_by_bounding_box(
     )
     return filtered_models, incorrect_models
 
-def filter_by_volume(target_model: dict, attempted_models: List[dict], incorrect_models: List[dict]) -> List[dict]:
+def filter_by_volume(target_model: Dict, attempted_models: List[Dict], incorrect_models: List[Dict]) -> List[Dict]:
     """Filters attempted models by volume rounded to 3 decimal places"""
     filtered_models = []
     for model in attempted_models:
@@ -55,7 +55,7 @@ def filter_by_volume(target_model: dict, attempted_models: List[dict], incorrect
     )
     return filtered_models, incorrect_models
 
-def filter_by_faces(target_model: dict, attempted_models: List[dict], incorrect_models: List[dict]) -> List[dict]:
+def filter_by_faces(target_model: Dict, attempted_models: List[Dict], incorrect_models: List[Dict]) -> List[Dict]:
     """Filters attempted models by the number of faces"""
     filtered_models = []
     for model in attempted_models:
