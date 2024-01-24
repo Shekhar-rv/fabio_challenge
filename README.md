@@ -51,3 +51,19 @@ This model had an overall score of 6.8/10. This model has 16 faces compared to t
 
 ### Attempt 4
 This model had an overall score of 10/10. This model has 34 faces compared to the target model which has 34 faces and all of the faces area matches with that of the target model. The volume of the model is the same as the target model.
+
+## The stats calculated for each model are saved in the output directory as a json file.
+
+## How to run the code
+
+### Prerequisites
+   Python 3.7 or higher
+
+### Steps
+    1. Clone the repository.
+    2. Navigate to the root directory of the repository.
+    3. Run the following command to run the code:
+        ```
+        make run-python-script
+        ```
+    4. The output will be saved in the output directory.
